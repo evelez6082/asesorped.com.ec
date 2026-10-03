@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ElizeBand from '../components/ElizeBand.astro';
+import Icon from '../components/Icon.astro';
+import { site, stats, timeline } from '../data/site';
+import { units, higherEd } from '../data/units';
+---
+<Base>
+  <!-- HERO -->
+  <section class="hex-pattern relative overflow-hidden bg-navy text-white">
+    <div class="absolute -top-40 -right-40 h-[32rem] w-[32rem] rounded-full bg-brand/30 blur-3xl" aria-hidden="true"></div>
+    <div class="container-x relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.1fr_1fr]">
+      <div>
+        <p class="eyebrow text-sky">{site.tagline} · Guayaquil</p>
+        <h1 class="mt-4 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Una sola institución, <span class="text-sky">toda tu educación.</span>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-white/80">
+          Desde 2015 fortalecemos la educación con asesoría académica y legal. Hoy, a través de la
+          <strong class="text-white">Red Educativa Santander</strong>, acompañamos a niños, jóvenes y adultos desde la educación básica hasta su desarrollo profesional.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#red" class="btn btn-primary">Conoce nuestra oferta <Icon name="arrow" class="h-4 w-4" /></a>
+          <a href="/asesoria" class="btn btn-ghost">Soy una institución</a>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="overflow-hidden rounded-[2rem] border-4 border-white/10 shadow-2xl">
+          <img src="/img/graduados.jpg" alt="Promoción de graduados de la Unidad Educativa Santander" width="1578" height="1600" class="aspect-[4/3] w-full object-cover object-top" />
+        </div>
+        <div class="absolute -bottom-6 -left-4 rounded-2xl bg-white p-4 text-navy shadow-xl sm:-left-8">
+          <p class="font-display text-3xl font-bold">5 meses</p>
+          <p class="text-sm text-muted">por período lectivo en el<br />bachillerato PCEI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIFRAS -->
+  <section class="border-b border-line bg-white">
+    <div class="container-x grid grid-cols-2 gap-6 py-12 md:grid-cols-4">
+      {stats.map((s) => (
+        <div class="border-l-4 border-accent pl-4">
+          <p class="font-display text-4xl font-bold text-navy">{s.value}</p>
+          <p class="mt-1 text-sm text-muted">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- RED EDUCATIVA -->
+  <section id="red" class="scroll-mt-20 bg-paper py-20">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Red Educativa Santander"
+        title="Un ecosistema que te acompaña en cada etapa"
+        text="Cada unidad comparte un mismo propósito: transformar vidas a través de una educación de calidad, innovadora y flexible, que abra caminos al empleo y al emprendimiento."
+      />
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {units.map((u) => (
+          <a href={`/unidades/${u.slug}`} class="card group flex flex-col transition hover:-translate-y-1 hover:border-brand/40 hover:shadow-lg">
+            <div class="flex items-center gap-4">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name={u.icon} /></span>
+              <div>
+                <h3 class="text-xl font-semibold">{u.short}</h3>
+                <p class="text-sm text-brand">{u.kicker}</p>
+              </div>
+            </div>
+            <p class="mt-4 flex-1 text-muted">{u.summary}</p>
+            <span class="mt-5 inline-flex items-center gap-2 font-display text-sm font-semibold text-navy group-hover:text-brand">
+              Ver programas <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-6 grid gap-6 md:grid-cols-[1fr_2fr]">
+        <div class="card flex flex-col justify-center bg-navy text-white">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-sky"><Icon name="book" /></span>
+          <h3 class="mt-4 text-xl font-semibold text-white">Educación superior</h3>
+          <p class="mt-2 text-white/75">Continúa tu formación de tercer y cuarto nivel gracias a nuestros convenios.</p>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {higherEd.map((h) => (
+            <div class="card">
+              <h4 class="text-lg font-semibold">{h.name}</h4>
+              <p class="mt-2 text-muted">{h.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASESORIA B2B -->
+  <section class="py-20">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2">
+      <div class="order-2 lg:order-1">
+        <img src="/img/equipo.jpg" alt="Equipo de asesores pedagógicos en reunión de trabajo" width="1600" height="1068" loading="lazy" class="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-xl" />
+      </div>
+      <div class="order-1 lg:order-2">
+        <SectionHeading
+          eyebrow="Para instituciones"
+          title="Asesoría pedagógica y legal para instituciones educativas"
+          text="Es nuestro origen. Acompañamos a unidades educativas, centros de capacitación y organizaciones con un equipo que conoce el sistema educativo ecuatoriano desde adentro."
+        />
+        <ul class="mt-8 space-y-4">
+          {[
+            ['Asesoría académica', 'Planificación, modelos pedagógicos, evaluación y mejora continua.'],
+            ['Asesoría legal educativa', 'Acompañamiento en procesos y normativa del sector educativo.'],
+            ['Formación docente y talleres', 'Formación de formadores, liderazgo y motivación para equipos.'],
+            ['Asesoría EduTech', 'Transformación digital de la gestión educativa, en alianza con elize.'],
+          ].map(([t, d]) => (
+            <li class="flex gap-4">
+              <span class="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent-600"><Icon name="check" class="h-4 w-4" /></span>
+              <span><strong class="font-display text-navy">{t}.</strong> <span class="text-muted">{d}</span></span>
+            </li>
+          ))}
+        </ul>
+        <a href="/asesoria" class="btn btn-dark mt-8">Ver servicios para instituciones <Icon name="arrow" class="h-4 w-4" /></a>
+      </div>
+    </div>
+  </section>
+
+  <ElizeBand />
+
+  <!-- TRAYECTORIA -->
+  <section class="hex-pattern bg-navy-900 py-20 text-white">
+    <div class="container-x">
+      <SectionHeading eyebrow="Nuestra trayectoria" title="Una década construyendo oportunidades" light />
+      <ol class="mt-12 grid gap-6 md:grid-cols-5">
+        {timeline.map((t, i) => (
+          <li class="relative rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p class:list={['font-display text-2xl font-bold', i === timeline.length - 1 ? 'text-accent' : 'text-sky']}>{t.year}</p>
+            <h3 class="mt-2 text-base font-semibold text-white">{t.title}</h3>
+            <p class="mt-2 text-sm text-white/70">{t.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- POR QUÉ -->
+  <section class="py-20">
+    <div class="container-x">
+      <SectionHeading center eyebrow="¿Por qué elegirnos?" title="Educación que se adapta a tu vida" />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ['screen', 'Flexible y virtual', 'Clases en línea, en vivo y grabadas, con horarios pensados para quienes estudian y trabajan.'],
+          ['users', 'Equipo con experiencia', 'Ex autoridades educativas, docentes universitarios y formadores de formadores.'],
+          ['target', 'Enfoque en tu futuro', 'Cada programa busca abrirte puertas al empleo digno o al emprendimiento.'],
+          ['globe', 'Visión internacional', 'Idiomas, certificaciones y orientación para becas en el exterior.'],
+        ].map(([icon, t, d]) => (
+          <div class="card">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name={icon} /></span>
+            <h3 class="mt-4 text-lg font-semibold">{t}</h3>
+            <p class="mt-2 text-muted">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

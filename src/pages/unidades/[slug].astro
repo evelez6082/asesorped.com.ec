@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { units, type Unit } from '../../data/units';
+import { waLink } from '../../data/site';
+
+export function getStaticPaths() {
+  return units.map((unit) => ({ params: { slug: unit.slug }, props: { unit } }));
+}
+
+interface Props { unit: Unit }
+const { unit } = Astro.props;
+const others = units.filter((u) => u.slug !== unit.slug);
+const isIllustration = unit.image.endsWith('.png');
+---
+<Base title={unit.short} description={unit.summary} image={unit.image}>
+  <section class="hex-pattern bg-navy text-white">
+    <div class="container-x grid items-center gap-10 py-14 md:py-20 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+        <nav aria-label="Ruta" class="text-sm text-white/60">
+          <a href="/" class="hover:text-white">Inicio</a> / <a href="/#red" class="hover:text-white">Red Educativa</a> / <span class="text-white">{unit.short}</span>
+        </nav>
+        <p class="eyebrow mt-6 text-sky">{unit.kicker}</p>
+        <h1 class="mt-3 text-3xl font-bold text-white sm:text-5xl">{unit.name}</h1>
+        <p class="mt-5 max-w-xl text-lg text-white/80">{unit.summary}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={waLink(unit.waMessage)} target="_blank" rel="noopener" class="btn btn-primary"><WhatsAppIcon /> Solicitar información</a>
+          <a href="#programas" class="btn btn-ghost">Ver programas</a>
+        </div>
+      </div>
+      <div class:list={[isIllustration ? 'mx-auto max-w-xs lg:max-w-sm' : 'overflow-hidden rounded-[2rem] border-4 border-white/10 shadow-2xl']}>
+        <img src={unit.image} alt={unit.imageAlt} class:list={['w-full', !isIllustration && 'aspect-[4/3] object-cover']} />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-x grid gap-12 lg:grid-cols-[1.3fr_1fr]">
+      <div class="prose-x text-lg text-muted">
+        {unit.intro.map((p) => <p>{p}</p>)}
+      </div>
+      <aside class="card bg-sky-50">
+        <h2 class="text-lg font-semibold">¿Para quién es?</h2>
+        <ul class="mt-4 space-y-3">
+          {unit.audience.map((a) => (
+            <li class="flex gap-3"><Icon name="check" class="mt-1 h-5 w-5 shrink-0 text-brand" /><span>{a}</span></li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+    <div class="container-x mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {unit.highlights.map((h) => (
+        <div class="border-t-4 border-accent pt-4">
+          <h3 class="text-lg font-semibold">{h.title}</h3>
+          <p class="mt-2 text-muted">{h.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="programas" class="scroll-mt-20 bg-paper py-16">
+    <div class="container-x">
+      <p class="eyebrow">Oferta académica</p>
+      <h2 class="mt-3 text-3xl font-semibold">Programas</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {unit.programs.map((p) => (
+          <article class="card flex flex-col">
+            <h3 class="text-xl font-semibold">{p.title}</h3>
+            <p class="mt-3 text-muted">{p.text}</p>
+            {p.details && (
+              <ul class="mt-4 space-y-2 text-sm">
+                {p.details.map((d) => (
+                  <li class="flex gap-2"><Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-accent" /><span>{d}</span></li>
+                ))}
+              </ul>
+            )}
+            <a href={waLink(`Hola, quiero información sobre: ${p.title} (${unit.short}).`)} target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 self-start font-display text-sm font-semibold text-brand hover:text-navy">
+              Consultar valores y horarios <Icon name="arrow" class="h-4 w-4" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-x">
+      <h2 class="text-2xl font-semibold">Más en la Red Educativa Santander</h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {others.map((u) => (
+          <a href={`/unidades/${u.slug}`} class="card group transition hover:border-brand/40 hover:shadow-lg">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name={u.icon} /></span>
+            <h3 class="mt-4 text-lg font-semibold group-hover:text-brand">{u.short}</h3>
+            <p class="mt-1 text-sm text-muted">{u.kicker}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand message={unit.waMessage} />
+</Base>

@@ -1,0 +1,63 @@
+---
+import { nav, waLink } from '../data/site';
+import { units } from '../data/units';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href.replace('/#red', '/unidades')));
+---
+<header class="sticky top-0 z-30 border-b border-line/80 bg-white/90 backdrop-blur">
+  <div class="container-x flex h-18 items-center justify-between gap-6 py-3">
+    <a href="/" class="flex shrink-0 items-center gap-3" aria-label="ASESORPED S.A. — Inicio">
+      <img src="/img/isotipo.png" alt="" width="48" height="36" class="h-9 w-auto" />
+      <span class="leading-tight">
+        <span class="block font-display text-lg font-bold tracking-wide text-navy">ASESORPED <span class="text-brand">S.A.</span></span>
+        <span class="hidden text-[0.7rem] tracking-[0.14em] text-muted uppercase sm:block">Centro de Asesoramiento Pedagógico</span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Principal">
+      {nav.map((item) =>
+        item.href === '/#red' ? (
+          <div class="group relative">
+            <a href={item.href} class:list={['rounded-full px-3 py-2 font-display text-sm font-medium transition hover:text-brand', isActive(item.href) ? 'text-brand' : 'text-navy']}>
+              {item.label}
+            </a>
+            <div class="invisible absolute top-full left-1/2 w-72 -translate-x-1/2 pt-3 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+              <div class="rounded-2xl border border-line bg-white p-2 shadow-xl">
+                {units.map((u) => (
+                  <a href={`/unidades/${u.slug}`} class="block rounded-xl px-4 py-3 hover:bg-sky-50">
+                    <span class="block font-display text-sm font-semibold text-navy">{u.short}</span>
+                    <span class="block text-sm text-muted">{u.kicker}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class:list={['rounded-full px-3 py-2 font-display text-sm font-medium transition hover:text-brand', isActive(item.href) ? 'text-brand' : 'text-navy']}>
+            {item.label}
+          </a>
+        )
+      )}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={waLink()} target="_blank" rel="noopener" class="btn btn-primary hidden px-5 py-2.5 sm:inline-flex">Inscríbete</a>
+      <details class="relative lg:hidden" id="mobile-nav">
+        <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-line text-navy [&::-webkit-details-marker]:hidden" aria-label="Abrir menú">
+          <Icon name="menu" />
+        </summary>
+        <div class="absolute top-full right-0 mt-3 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-line bg-white p-3 shadow-xl">
+          {nav.filter((i) => i.href !== '/#red').map((item) => (
+            <a href={item.href} class="block rounded-xl px-4 py-3 font-display text-navy hover:bg-sky-50">{item.label}</a>
+          ))}
+          <p class="px-4 pt-3 pb-1 text-xs font-semibold tracking-widest text-muted uppercase">Red Educativa</p>
+          {units.map((u) => (
+            <a href={`/unidades/${u.slug}`} class="block rounded-xl px-4 py-2.5 text-navy hover:bg-sky-50">{u.short}</a>
+          ))}
+          <a href={waLink()} target="_blank" rel="noopener" class="btn btn-primary mt-3 w-full">Inscríbete por WhatsApp</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

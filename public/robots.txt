@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asesorped.com.ec/sitemap-index.xml

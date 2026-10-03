@@ -1,0 +1,44 @@
+---
+import { site, nav } from '../data/site';
+import { units } from '../data/units';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="bg-navy-950 text-white/75">
+  <div class="container-x grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+    <div>
+      <div class="inline-block rounded-2xl bg-white p-4">
+        <img src="/img/logo-asesorped.png" alt="ASESORPED S.A. — Centro de Asesoramiento Pedagógico" width="220" height="110" class="h-auto w-48" loading="lazy" />
+      </div>
+      <p class="mt-5 text-sm">{site.network}: {site.networkSlogan}</p>
+    </div>
+    <div>
+      <p class="font-display text-sm font-semibold text-white">Navegación</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        {nav.map((i) => <li><a class="hover:text-white" href={i.href}>{i.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="font-display text-sm font-semibold text-white">Red Educativa</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        {units.map((u) => <li><a class="hover:text-white" href={`/unidades/${u.slug}`}>{u.short}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="font-display text-sm font-semibold text-white">Contacto</p>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li class="flex gap-3"><Icon name="pin" class="h-5 w-5 shrink-0 text-sky" /><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="hover:text-white">{site.contact.address}, {site.contact.city}</a></li>
+        {site.contact.phones.map((p) => (
+          <li class="flex gap-3"><Icon name="phone" class="h-5 w-5 shrink-0 text-sky" /><a href={`tel:${p.replace(/\s/g, '')}`} class="hover:text-white">{p}</a></li>
+        ))}
+        <li class="flex gap-3"><Icon name="mail" class="h-5 w-5 shrink-0 text-sky" /><a href={`mailto:${site.contact.email}`} class="break-all hover:text-white">{site.contact.email}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container-x flex flex-col gap-3 py-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.name} · RUC {site.ruc} · Guayaquil, Ecuador</p>
+      <p>Desarrollado por <a href="https://www.cacicustech.com" target="_blank" rel="noopener" class="underline-offset-2 hover:text-white hover:underline">CacicusTech</a></p>
+    </div>
+  </div>
+</footer>

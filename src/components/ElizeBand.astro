@@ -1,0 +1,21 @@
+---
+// Banda de presentación de la rama EduTech, con la firma visual de elize (gradiente oliva → naranja).
+import Icon from './Icon.astro';
+---
+<section class="pb-20">
+  <div class="container-x">
+    <div class="elize-gradient grid items-center gap-8 overflow-hidden rounded-[2rem] px-6 py-12 text-black sm:px-12 md:grid-cols-[1.4fr_1fr]">
+      <div>
+        <p class="font-display text-xs font-semibold tracking-[0.18em] uppercase">Nueva rama · Asesoría EduTech</p>
+        <h2 class="mt-3 text-3xl font-semibold text-black sm:text-4xl">La educación moderna requiere gestión inteligente.</h2>
+        <p class="mt-4 max-w-xl text-black/80">Acompañamos a su institución en la transformación digital, en alianza con <strong>elize</strong>, el ERP educativo para la gestión académica, administrativa y financiera.</p>
+        <a href="/edutech" class="btn mt-7 bg-black text-white hover:bg-black/80">Conocer la Asesoría EduTech <Icon name="arrow" class="h-4 w-4" /></a>
+      </div>
+      <ul class="grid gap-3 text-sm">
+        {['Mayor control. Menos carga operativa.', 'Decisiones basadas en datos, en tiempo real.', 'Puesta en marcha en 24 horas.'].map((t) => (
+          <li class="rounded-2xl bg-elize-cream/85 px-5 py-4 font-display font-medium text-black backdrop-blur">{t}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

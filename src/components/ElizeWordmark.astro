@@ -1,0 +1,8 @@
+---
+// Muestra el wordmark oficial de elize si está configurado; si no, el nombre en texto plano.
+import { elize } from '../data/elize';
+interface Props { onColor?: boolean; class?: string }
+const { onColor = false, class: cls = 'h-8 w-auto' } = Astro.props;
+const src = onColor ? elize.logoOnColor || elize.logo : elize.logo;
+---
+{src ? <img src={src} alt="elize" class={cls} /> : <span class="font-display font-semibold">elize</span>}

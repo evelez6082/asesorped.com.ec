@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Paleta tomada del logo de ASESORPED S.A. + acento naranja de la Red Educativa Santander */
+@theme {
+  --color-navy-950: #0b1d33;
+  --color-navy-900: #10294a;
+  --color-navy: #16365a;
+  --color-brand: #1e87c8;
+  --color-brand-600: #1772ab;
+  --color-sky: #6bc1d6;
+  --color-sky-50: #eef8fb;
+  --color-sky-100: #d9f0f6;
+  --color-accent: #f28c28;
+  --color-accent-600: #d9731a;
+  --color-ink: #1f2937;
+  --color-muted: #5b6676;
+  --color-line: #e3e8ef;
+  --color-paper: #f7f9fc;
+
+  /* Marca elize (rama Asesoría EduTech) */
+  --color-elize-orange: #e97006;
+  --color-elize-orange-ink: #9a4a00; /* naranja oscurecido para texto pequeño sobre crema/blanco (5.8:1) */
+  --color-elize-olive: #c8bf83;
+  --color-elize-cream: #f7f7ed;
+
+  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-navy;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+  .eyebrow {
+    @apply font-display text-xs font-semibold tracking-[0.18em] text-brand uppercase;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-sm font-semibold transition;
+  }
+  .btn-primary {
+    @apply bg-accent text-white hover:bg-accent-600;
+  }
+  .btn-dark {
+    @apply bg-navy text-white hover:bg-navy-900;
+  }
+  .btn-ghost {
+    @apply border border-white/40 text-white hover:bg-white/10;
+  }
+  .btn-outline {
+    @apply border border-navy/20 text-navy hover:border-navy hover:bg-navy hover:text-white;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-white p-6 shadow-[0_1px_2px_rgba(16,41,74,0.04)];
+  }
+  .prose-x p + p {
+    @apply mt-4;
+  }
+  /* Firma visual de elize: gradiente diagonal oliva → naranja. Texto siempre oscuro encima. */
+  .elize-gradient {
+    background-image: linear-gradient(135deg, #c8bf83 0%, #e97006 100%);
+  }
+  /* Patrón de hexágonos inspirado en la Red Educativa Santander */
+  .hex-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82V66l28 16 28-16v16L28 98z' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'/%3E%3C/svg%3E");
+  }
+}

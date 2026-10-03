@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { site, waLink } from '../data/site';
+import { units } from '../data/units';
+---
+<Base title="Contacto" description="Contáctanos para información sobre matrículas, cursos, idiomas o asesoría institucional. Guayaquil, Ecuador.">
+  <section class="hex-pattern bg-navy text-white">
+    <div class="container-x py-16 md:py-20">
+      <p class="eyebrow text-sky">Contacto</p>
+      <h1 class="mt-3 text-4xl font-bold text-white sm:text-5xl">Estamos para orientarte</h1>
+      <p class="mt-5 max-w-xl text-lg text-white/80">Escríbenos y un asesor te responderá con información de programas, valores, horarios y proceso de inscripción.</p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-x grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+      <div class="space-y-4">
+        <a href={waLink()} target="_blank" rel="noopener" class="card flex items-center gap-4 transition hover:border-[#25D366]">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366]/15 text-[#128C7E]"><WhatsAppIcon class="h-6 w-6" /></span>
+          <span><strong class="font-display text-navy">WhatsApp</strong><br /><span class="text-muted">{site.contact.phones[0]}</span></span>
+        </a>
+        <div class="card flex items-start gap-4">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name="phone" /></span>
+          <span>
+            <strong class="font-display text-navy">Teléfonos</strong>
+            {site.contact.phones.map((p) => <a class="block text-muted hover:text-brand" href={`tel:${p.replace(/\s/g, '')}`}>{p}</a>)}
+          </span>
+        </div>
+        <a href={`mailto:${site.contact.email}`} class="card flex items-center gap-4 transition hover:border-brand/40">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name="mail" /></span>
+          <span class="min-w-0"><strong class="font-display text-navy">Correo</strong><br /><span class="break-all text-muted">{site.contact.email}</span></span>
+        </a>
+        <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="card flex items-center gap-4 transition hover:border-brand/40">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-brand"><Icon name="pin" /></span>
+          <span><strong class="font-display text-navy">Oficina</strong><br /><span class="text-muted">{site.contact.address}<br />{site.contact.city}</span></span>
+        </a>
+      </div>
+
+      <form id="contact-form" class="card p-6 sm:p-8" novalidate>
+        <h2 class="text-2xl font-semibold">Solicita información</h2>
+        <p class="mt-2 text-sm text-muted">Al enviar, se abrirá WhatsApp con tu mensaje listo para enviar.</p>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2">
+          <label class="block">
+            <span class="text-sm font-semibold text-navy">Nombre completo</span>
+            <input name="nombre" required autocomplete="name" class="mt-1 w-full rounded-xl border border-line px-4 py-3 focus:border-brand focus:outline-none" />
+          </label>
+          <label class="block">
+            <span class="text-sm font-semibold text-navy">Teléfono</span>
+            <input name="telefono" type="tel" autocomplete="tel" class="mt-1 w-full rounded-xl border border-line px-4 py-3 focus:border-brand focus:outline-none" />
+          </label>
+          <label class="block sm:col-span-2">
+            <span class="text-sm font-semibold text-navy">Me interesa</span>
+            <select name="interes" class="mt-1 w-full rounded-xl border border-line bg-white px-4 py-3 focus:border-brand focus:outline-none">
+              {units.map((u) => <option>{u.short} — {u.kicker}</option>)}
+              <option>Educación superior (convenios)</option>
+              <option>Asesoría para mi institución</option>
+              <option>Asesoría EduTech (elize)</option>
+              <option>Otro</option>
+            </select>
+          </label>
+          <label class="block sm:col-span-2">
+            <span class="text-sm font-semibold text-navy">Mensaje</span>
+            <textarea name="mensaje" rows="4" class="mt-1 w-full rounded-xl border border-line px-4 py-3 focus:border-brand focus:outline-none" placeholder="Cuéntanos qué necesitas"></textarea>
+          </label>
+        </div>
+        <p id="form-error" class="mt-4 hidden text-sm text-red-600" role="alert">Por favor escribe tu nombre.</p>
+        <button type="submit" class="btn btn-primary mt-6 w-full sm:w-auto"><WhatsAppIcon /> Enviar por WhatsApp</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script define:vars={{ phone: site.contact.whatsapp }}>
+  const form = document.getElementById('contact-form');
+  const err = document.getElementById('form-error');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const nombre = String(d.get('nombre') || '').trim();
+    if (!nombre) { err.classList.remove('hidden'); form.nombre.focus(); return; }
+    err.classList.add('hidden');
+    const lines = [
+      `Hola, soy ${nombre}.`,
+      `Me interesa: ${d.get('interes')}.`,
+      d.get('telefono') ? `Mi teléfono: ${d.get('telefono')}.` : '',
+      String(d.get('mensaje') || '').trim(),
+    ].filter(Boolean);
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+  });
+</script>
